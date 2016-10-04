@@ -1,0 +1,3 @@
+The Hadoop framework itself is mostly written in the Java programming language, with some native code in C and command line utilities 
+written as shell scripts. Though MapReduce Java code is common, any programming language can be used with "Hadoop Streaming" to implement the "map" and "reduce" parts of the user's program. 
+Other projects in the Hadoop ecosystem expose richer user interfaces.
