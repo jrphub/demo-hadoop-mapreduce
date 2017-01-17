@@ -1,19 +1,21 @@
 package com.sample.hadoop.mapreduce;
 
 import java.io.IOException;
-
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 public class WordCountReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
 
-	public void reduce(Text text, Iterable<IntWritable> values, Context context)
-			throws IOException, InterruptedException {
-		int sum = 0;
-		for (IntWritable value : values) {
-			sum += value.get();
+	@Override
+	protected void reduce(Text key, Iterable<IntWritable> values,
+			Context context) throws IOException, InterruptedException {
+
+		int noOfFrequency = 0;
+		for (IntWritable occurance : values) {
+			noOfFrequency += occurance.get();
 		}
-		context.write(text, new IntWritable(sum));
+		context.write(key, new IntWritable(noOfFrequency));
 	}
+
 }
