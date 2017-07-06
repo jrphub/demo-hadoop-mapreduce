@@ -21,6 +21,7 @@ public class MyfirstHBaseTable {
 													// case-sensitive
 
 	public static void main(String[] args) throws IOException {
+		//Hadoop and HBASE needs to be started before running this program
 		Configuration hconfig = HBaseConfiguration.create(new Configuration());
 
 		HTableDescriptor htable = new HTableDescriptor(TableName.valueOf(TABLE));

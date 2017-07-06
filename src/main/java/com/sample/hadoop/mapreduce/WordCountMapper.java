@@ -31,12 +31,12 @@ public class WordCountMapper extends Mapper<Object, Text, Text, IntWritable> {
 	@Override
 	protected void setup(Mapper<Object, Text, Text, IntWritable>.Context context)
 			throws IOException, InterruptedException {
-		System.out.println("calls only once at startup");
+		System.out.println("WordCountMapper called only once at startup");
 	}
 
 	@Override
 	protected void cleanup(Mapper<Object, Text, Text, IntWritable>.Context context)
 			throws IOException, InterruptedException {
-		System.out.println("calls only once at end");
+		System.out.println("WordCountMapper called only once at end");
 	}
 }
