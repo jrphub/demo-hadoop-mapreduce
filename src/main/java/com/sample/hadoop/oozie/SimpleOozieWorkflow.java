@@ -14,7 +14,7 @@ import org.apache.oozie.client.WorkflowJob.Status;
  * 
  */
 
-public class MySimpleOozieClient {
+public class SimpleOozieWorkflow {
 
 	public static void main(String[] args) throws OozieClientException {
 		// get a OozieClient for local Oozie

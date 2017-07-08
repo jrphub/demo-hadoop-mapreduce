@@ -71,6 +71,12 @@
 			<artifactId>oozie-client</artifactId>
 			<version>4.3.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.oozie</groupId>
+			<artifactId>oozie-core</artifactId>
+			<version>4.3.0</version>
+		</dependency>
+
 
 
 		<dependency>
