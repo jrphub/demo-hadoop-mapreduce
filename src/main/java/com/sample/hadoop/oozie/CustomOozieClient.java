@@ -117,87 +117,93 @@ public class CustomOozieClient extends OozieClient {
 		// String jobId = "0000001-170708113523006-oozie-huse-W";
 
 		// sla 0.1
-		//String jobId = "0000001-170708204706283-oozie-huse-W";
+		// String jobId = "0000001-170708204706283-oozie-huse-W";
 		// Getting SLA Information
 		wc.getSlaInfo(0, 0, "id=" + jobId);
 
 	}
-	
+
 	@Override
 	public WorkflowJob getJobInfo(String jobId) throws OozieClientException {
 		return getJobInfo(jobId, 0, 0);
 	}
-	
+
 	@Override
 	public WorkflowJob getJobInfo(String jobId, int start, int len)
 			throws OozieClientException {
 		return ((WorkflowJob) new JobInfo(jobId, start, len).call());
 	}
-	
+
 	private class JobInfo extends CustomClientCallable<WorkflowJob> {
 
-        JobInfo(String jobId, int start, int len) {
-            super("GET", RestConstants.JOB, notEmpty(jobId, "jobId"), prepareParams(RestConstants.JOB_SHOW_PARAM,
-                    RestConstants.JOB_SHOW_INFO, RestConstants.OFFSET_PARAM, Integer.toString(start),
-                    RestConstants.LEN_PARAM, Integer.toString(len)));
-        }
+		JobInfo(String jobId, int start, int len) {
+			super("GET", RestConstants.JOB, notEmpty(jobId, "jobId"),
+					prepareParams(RestConstants.JOB_SHOW_PARAM,
+							RestConstants.JOB_SHOW_INFO,
+							RestConstants.OFFSET_PARAM,
+							Integer.toString(start), RestConstants.LEN_PARAM,
+							Integer.toString(len)));
+		}
 
-        @Override
-        protected WorkflowJob call(HttpURLConnection conn) throws IOException, OozieClientException {
-            if ((conn.getResponseCode() == HttpURLConnection.HTTP_OK)) {
-                Reader reader = new InputStreamReader(conn.getInputStream());
-                JSONObject json = (JSONObject) JSONValue.parse(reader);
-                return JsonToBean.createWorkflowJob(json);
-            }
-            else {
-                handleError(conn);
-            }
-            return null;
-        }
+		@Override
+		protected WorkflowJob call(HttpURLConnection conn) throws IOException,
+				OozieClientException {
+			if ((conn.getResponseCode() == HttpURLConnection.HTTP_OK)) {
+				Reader reader = new InputStreamReader(conn.getInputStream());
+				JSONObject json = (JSONObject) JSONValue.parse(reader);
+				return JsonToBean.createWorkflowJob(json);
+			} else {
+				handleError(conn);
+			}
+			return null;
+		}
 	}
-	
-	
-	
-	
+
 	@Override
 	public String run(Properties props) throws OozieClientException {
 		return (new JobSubmit(props, true)).call();
 	}
-	
+
 	private class JobSubmit extends CustomClientCallable<String> {
-        private final Properties conf;
+		private final Properties conf;
 
-        JobSubmit(Properties conf, boolean start) {
-            super("POST", RestConstants.JOBS, "", (start) ? prepareParams(RestConstants.ACTION_PARAM,
-                    RestConstants.JOB_ACTION_START) : prepareParams());
-            this.conf = notNull(conf, "conf");
-        }
+		JobSubmit(Properties conf, boolean start) {
+			super("POST", RestConstants.JOBS, "", (start) ? prepareParams(
+					RestConstants.ACTION_PARAM, RestConstants.JOB_ACTION_START)
+					: prepareParams());
+			this.conf = notNull(conf, "conf");
+		}
 
-        JobSubmit(String jobId, Properties conf) {
-            super("PUT", RestConstants.JOB, notEmpty(jobId, "jobId"), prepareParams(RestConstants.ACTION_PARAM,
-                    RestConstants.JOB_ACTION_RERUN));
-            this.conf = notNull(conf, "conf");
-        }
+		JobSubmit(String jobId, Properties conf) {
+			super("PUT", RestConstants.JOB, notEmpty(jobId, "jobId"),
+					prepareParams(RestConstants.ACTION_PARAM,
+							RestConstants.JOB_ACTION_RERUN));
+			this.conf = notNull(conf, "conf");
+		}
 
-        public JobSubmit(Properties conf, String jobActionDryrun) {
-            super("POST", RestConstants.JOBS, "", prepareParams(RestConstants.ACTION_PARAM,
-                    RestConstants.JOB_ACTION_DRYRUN));
-            this.conf = notNull(conf, "conf");
-        }
+		public JobSubmit(Properties conf, String jobActionDryrun) {
+			super("POST", RestConstants.JOBS, "",
+					prepareParams(RestConstants.ACTION_PARAM,
+							RestConstants.JOB_ACTION_DRYRUN));
+			this.conf = notNull(conf, "conf");
+		}
 
-        @Override
-        protected String call(HttpURLConnection conn) throws IOException, OozieClientException {
-            conn.setRequestProperty("content-type", RestConstants.XML_CONTENT_TYPE);
-            writeToXml(conf, conn.getOutputStream());
-            if (conn.getResponseCode() == HttpURLConnection.HTTP_CREATED) {
-                JSONObject json = (JSONObject) JSONValue.parse(new InputStreamReader(conn.getInputStream()));
-                return (String) json.get(JsonTags.JOB_ID);
-            }
-            if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                handleError(conn);
-            }
-            return null;
-        }
+		@Override
+		protected String call(HttpURLConnection conn) throws IOException,
+				OozieClientException {
+			conn.setRequestProperty("content-type",
+					RestConstants.XML_CONTENT_TYPE);
+			writeToXml(conf, conn.getOutputStream());
+			if (conn.getResponseCode() == HttpURLConnection.HTTP_CREATED) {
+				JSONObject json = (JSONObject) JSONValue
+						.parse(new InputStreamReader(conn.getInputStream()));
+				return (String) json.get(JsonTags.JOB_ID);
+			}
+			if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
+				handleError(conn);
+			}
+			return null;
+		}
 	}
 
 	@Override
@@ -244,8 +250,8 @@ public class CustomOozieClient extends OozieClient {
 		private final String resource;
 		private final Map<String, String> params;
 		private final Long protocolVersion;
-		
-		//ProtocolVersion is set
+
+		// ProtocolVersion is set
 		public CustomClientCallable(String method, String collection,
 				String resource, Map<String, String> params) {
 			this(method, WS_PROTOCOL_VERSION, collection, resource, params);
@@ -261,8 +267,8 @@ public class CustomOozieClient extends OozieClient {
 			this.params = params;
 		}
 
-		
-		 /* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
 		 * 
 		 * @see java.util.concurrent.Callable#call()
 		 * 
@@ -452,6 +458,7 @@ public class CustomOozieClient extends OozieClient {
 	 * 
 	 * validates version
 	 */
+	
 	@Override
 	public synchronized void validateWSVersion() throws OozieClientException {
 		if (!validatedVersion) {
@@ -490,7 +497,7 @@ public class CustomOozieClient extends OozieClient {
 								+ "/";
 					}
 				}
-				
+
 			} catch (IOException ex) {
 				throw new OozieClientException(OozieClientException.IO_ERROR,
 						ex);
