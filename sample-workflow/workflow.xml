@@ -15,14 +15,33 @@
     </kill>
     <end name="end"/>
     <sla:info>
+	  <!-- sla 0.2 -->
+	  <!--
+	  <sla:nominal-time>${nominalTime}</sla:nominal-time>
+      <sla:should-start>${shouldStart}</sla:should-start>
+      <sla:should-end>${shouldEnd}</sla:should-end>
+      <sla:max-duration>5</sla:max-duration>
+      -->
+      <!--sla:alert-events>start_miss,end_miss,duration_miss</sla:alert-events-->
+      <!--
+      <sla:alert-contact>${alertContact}</sla:alert-contact>
+      <sla:notification-msg>${notificationMsg}</sla:notification-msg>
+      -->
+      <!--sla:upstream-apps>${upstreamApps}</sla:upstream-apps-->
+      
+
+
+	  <!-- sla 0.1 -->
 	  <sla:app-name>simplejob</sla:app-name>
-          <sla:nominal-time>${nominalTime}</sla:nominal-time>
-          <sla:should-start>${shouldStart}</sla:should-start>
-          <sla:should-end>${shouldEnd}</sla:should-end>
+      <sla:nominal-time>${nominalTime}</sla:nominal-time>
+      <sla:should-start>${shouldStart}</sla:should-start>
+      <sla:should-end>${shouldEnd}</sla:should-end>
 	  <sla:notification-msg>${notificationMsg}</sla:notification-msg>
 	  <sla:alert-contact>${alertContact}</sla:alert-contact>
 	  <sla:dev-contact>${devContact}</sla:dev-contact>
 	  <sla:qa-contact>${qaContact}</sla:qa-contact>
 	  <sla:se-contact>${seContact}</sla:se-contact>
+	  
+
     </sla:info>
 </workflow-app>
