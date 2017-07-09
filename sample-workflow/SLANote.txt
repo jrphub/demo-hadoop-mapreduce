@@ -1,0 +1,58 @@
+There are 3 criteria for SLA
+1. Start Time
+2. End Time
+3. Job Duration
+
+Following above criteria, there can be below Event Status
+1. Start Time - START_MET. START_MISS
+2. End Time - END_MET, END_MISS
+3. Job Duration - DURATION_MET, DURATION_MISS
+
+There can be 4 types of SLA Status
+1. Not_Started <-- Job not yet begun
+2. In_Process <-- Job started and is running, and SLAs are being tracked
+3. Met <-- caused by an END_MET
+4. Miss <-- caused by an END_MISS
+
+So, SLA is met or miss, depends on END_MET or END_MISS respectively.
+for example :
+
+Scenario-1:
+==========
+For event status:
+START_MISS, END_MET, DURATION_MET
+
+SLA Status would be END_MET
+
+Here is the input in job.properties file:
+nominalTime=2017-07-09T16:47Z
+shouldStart=1
+shouldEnd=5
+
+Here is the response for such scenario and input
+
+{
+	"slaSummaryList": [{
+		"nominalTime": 1499618820000,  //GMT: Sunday, July 9, 2017 4:47:00 PM
+		"jobStatus": "SUCCEEDED",
+		"expectedEnd": 1499619120000,  //GMT: Sunday, July 9, 2017 4:52:00 PM
+		"appName": "simplejob",
+		"actualEnd": 1499619043130,  //GMT: Sunday, July 9, 2017 4:50:43.130 PM
+		"actualDuration": 392,
+		"expectedStart": 1499618880000,  //GMT: Sunday, July 9, 2017 4:48:00 PM
+		"expectedDuration": 240000, //4 min
+		"durationDelay": -3,
+		"slaStatus": "MET",
+		"appType": "WORKFLOW_JOB",
+		"slaAlertStatus": "Enabled",
+		"eventStatus": "END_MET,DURATION_MET,START_MISS",
+		"startDelay": 2,
+		"id": "0000010-170708204706283-oozie-huse-W",
+		"lastModified": 1499619052621,
+		"user": "jrp",
+		"actualStart": 1499619042738, //GMT: Sunday, July 9, 2017 4:50:42.738 PM
+		"endDelay": -1
+	}]
+}
+
+

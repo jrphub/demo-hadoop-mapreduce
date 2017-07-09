@@ -96,7 +96,7 @@
      <property>
         <name>oozie.service.EventHandlerService.event.listeners</name>
         <value>
-            org.apache.oozie.sla.listener.SLAEmailEventListener
+            org.apache.oozie.sla.listener.SLAJobEventListener
         </value>
      </property>
 
