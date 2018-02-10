@@ -11,11 +11,22 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
+/*
+ * Note
+ * This is standalone program and can be run inside eclipse like IDE.
+ * 
+ * To do so
+ * - Output directory should be empty. Delete if there are any files inside it.
+ * - remove all config files from src/main/resources
+ * - No need to start any hadoop server
+ * - Add argument in run configuration: 
+ * 		Run as -> Run Configuration -> Arguments -> Program Argument -> sample.txt output
+ * 
+ */
 public class WordCount {
 
 	public static void main(String[] args) {
-		//Add argument in run configuration: sample.txt output
-		//delete output directory if any
+		
 		if (args.length < 2) {
 			System.err.println("input path ");
 		}
